@@ -1,12 +1,9 @@
 # Del ADN a la proteína: replicación, transcripción y traducción con Biopython
 
 **Autoras:** Amai Suárez Navarro y Laura Aguia Pérez
-
 **Asignatura:** Bioinformática
-
 **Fecha:** septiembre de 2026
-
-**Repositorio:** [[ENLACE AL REPOSITORIO]](https://github.com/Lauuaguiar/from_DNA_to_protein)
+**Repositorio:** [[ENLACE AL REPOSITORIO](https://github.com/Lauuaguiar/from_DNA_to_protein)]
 
 ---
 
@@ -73,7 +70,7 @@ Con un gen de cinco exones diseñamos cuatro isoformas: la completa (1-2-3-4-5),
 
 La isoforma D pierde 8 aminoácidos pero el resto de la proteína se mantiene igual. En B y C todo lo que va después del salto cambia. Es decir, lo que importa no es cuánto se quita sino si el número de nucleótidos es múltiplo de 3.
 
-Esto permite sacar varias proteínas de un solo gen. Con unos 20 000 genes codificantes, el ser humano tiene un proteoma bastante mayor, y más del 90 % de los genes con varios exones sufren splicing alternativo. En Ensembl consultamos *FGFR2*, que tiene decenas de transcritos. El caso más conocido son las isoformas IIIb y IIIc, que se diferencian en un exón mutuamente excluyente del tercer dominio de tipo inmunoglobulina. Eso cambia el sitio de unión: la IIIb, epitelial, reconoce FGF7 y FGF10, y la IIIc, mesenquimal, otros FGF distintos. Un cambio de unos cincuenta aminoácidos decide con qué ligando trabaja el receptor.
+Esto permite sacar varias proteínas de un solo gen. Con unos 20 000 genes codificantes, el ser humano tiene un proteoma bastante mayor, y más del 90 % de los genes con varios exones sufren splicing alternativo. En Ensembl consultamos *FGFR2* (ENSG00000066468, cromosoma 10) y nos devolvió 59 transcritos. Las proteínas que codifican van desde 56 hasta 822 aminoácidos, y la del transcrito canónico (FGFR2-206) tiene 821. Muchas isoformas largas se diferencian en muy pocos residuos, lo que encaja con cambios de un solo exón. El caso más conocido son las isoformas IIIb y IIIc, que se diferencian en un exón mutuamente excluyente del tercer dominio de tipo inmunoglobulina. Eso cambia el sitio de unión: la IIIb, epitelial, reconoce FGF7 y FGF10, y la IIIc, mesenquimal, otros FGF distintos. Un cambio de unos cincuenta aminoácidos decide con qué ligando trabaja el receptor.
 
 ### 3.5 Proteínas: secuencia, estructura y función
 
@@ -81,13 +78,13 @@ En el péptido Met-Ile-Ser-Gly-Val-Lys-His el extremo N es la Met (grupo amino l
 
 El orden de los aminoácidos determina cómo se pliega la proteína (Anfinsen, 1973). Los residuos hidrofóbicos tienden a esconderse en el interior y los polares quedan hacia el agua. Si una mutación cambia un hidrofóbico interno por uno hidrofílico, se mete una carga o un grupo polar donde no cabe y el núcleo se desestabiliza. Lo comprobamos con el GRAVY: el péptido original da 0,329 y al cambiar Val5 por Lys baja a −0,829, con el pI pasando de 8,5 a 10. En una proteína real eso podría romper el plegamiento o hacer que se agregue. El caso contrario también existe: en la anemia falciforme un Glu de la superficie de la hemoglobina pasa a Val, que es hidrofóbica, y las moléculas se pegan entre sí.
 
-Para ver estructuras reales descargamos la ubiquitina (1UBQ; Vijay-Kumar et al., 1987) y usamos los registros HELIX y SHEET del fichero PDB para marcar cada residuo. Tiene una hélice α y una lámina β en solo 76 aminoácidos. Nos pareció un buen ejemplo porque es pequeña y se ve todo de un vistazo. Una sola prolina en mitad de la hélice bastaría para romperla, ya que no puede formar el puente de hidrógeno del esqueleto.
+Para ver estructuras reales descargamos la ubiquitina (1UBQ; Vijay-Kumar et al., 1987) y usamos los registros HELIX y SHEET del fichero PDB para marcar cada residuo. De sus 76 residuos, 33 forman parte de la lámina β y 16 están en hélice (una hélice α larga y otra muy corta). Al calcular la hidropatía media por tipo de estructura, la lámina salió positiva (0,23) y la hélice y los bucles negativos (−1,00 y −1,06). Tiene sentido, porque en la ubiquitina la lámina forma buena parte del núcleo de la proteína y la hélice queda bastante expuesta. Una sola prolina en mitad de la hélice bastaría para romperla, ya que no puede formar el puente de hidrógeno del esqueleto.
 
 ### 3.6 Pipeline integrador
 
-El pipeline lee la CDS de la insulina humana (NM_000207, 333 nt), genera las dos hebras complementarias y comprueba que las hijas son idénticas. Después transcribe la molde, busca el ORF más largo y lo traduce. Obtiene la preproinsulina de 110 aminoácidos, que empieza por el péptido señal MALWMRLL... En cada paso escribe un mensaje con lo que hace, las secuencias y alguna comprobación, y al final guarda todo en un FASTA.
+El pipeline lee la CDS de la insulina humana (NM_000207.3, 333 nt, con un 64,6 % de GC), genera las dos hebras complementarias y comprueba que las hijas son idénticas. Después transcribe la molde, busca el ORF más largo y lo traduce. El ORF ocupa las 333 bases, empieza en AUG y termina en UAG. Sale la preproinsulina de 110 aminoácidos, que empieza por el péptido señal MALWMRLL, con una masa de 11,98 kDa y un pI de 5,22. En cada paso escribe un mensaje con lo que hace, las secuencias y alguna comprobación, y al final guarda todo en un FASTA.
 
-Para contestar qué punto es más vulnerable, metimos 2000 mutaciones puntuales aleatorias en la CDS. Salieron un [__] % silenciosas, un [__] % de sentido erróneo y un [__] % que creaban un paro prematuro. Estos porcentajes dependen del código genético y no de la etapa en la que ocurra el error. Lo que sí depende de la etapa es cuánto dura el daño:
+Para contestar qué punto es más vulnerable, metimos 2000 mutaciones puntuales aleatorias en la CDS. Un 27,1 % fueron silenciosas, un 67,6 % de sentido erróneo y un 4,0 % crearon un paro prematuro. Las que tocaban el codón de inicio o el de paro fueron muy pocas (0,6 % cada una), algo lógico en una secuencia de 333 bases donde esos codones son solo 6. Estos porcentajes dependen del código genético y no de la etapa en la que ocurra el error. Lo que sí depende de la etapa es cuánto dura el daño:
 
 - **En la replicación**, el error queda en el ADN, pasa a todos los ARNm y a todas las proteínas de la célula, y además se hereda.
 - **En la transcripción**, afecta solo a un ARNm. En nuestra simulación, 1 de cada 10 proteínas salía mal frente a 10 de 10 con el error en el ADN.
