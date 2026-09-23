@@ -1,9 +1,12 @@
 # Del ADN a la proteína: replicación, transcripción y traducción con Biopython
 
 **Autoras:** Amai Suárez Navarro y Laura Aguia Pérez
+
 **Asignatura:** Bioinformática
+
 **Fecha:** septiembre de 2026
-**Repositorio:** [ENLACE AL REPOSITORIO]
+
+**Repositorio:** [[ENLACE AL REPOSITORIO]](https://github.com/Lauuaguiar/from_DNA_to_protein)
 
 ---
 
